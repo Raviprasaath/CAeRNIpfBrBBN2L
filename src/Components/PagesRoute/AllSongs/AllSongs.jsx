@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
 import "react-multi-carousel/lib/styles.css";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { BiHeart } from "react-icons/bi";
@@ -101,25 +100,10 @@ function AllSongs() {
     dispatch(actions.setActiveSong(data));
   };
 
-
-
-
-
-
-
-
-
-
-
   
   const currentSongArray = Object.keys(currentSong).map(
     (key) => currentSong[key]
   );
-
-
-
-
-
 
 
   const scrollToTop = () => {
@@ -326,39 +310,3 @@ export default AllSongs;
 
 
 
-
-// function localStorageDataGetting() {
-  //   try {
-  //     const fromLocalStorage = JSON.parse(localStorage.getItem("localSongs"));
-  //     if (fromLocalStorage && fromLocalStorage.data) {
-  //       const updatedSongs = fromLocalStorage.data.map((item) => ({
-  //         key: item._id,
-  //         url: item.thumbnail || "",
-  //         name: item.title || "",
-  //         audio: item.audio_url || "",
-  //         description:
-  //           (item.artist && item.artist[0] && item.artist[0].description) || "",
-  //         artist: (item.artist && item.artist[0] && item.artist[0].name) || "",
-  //         mood: item.mood || "",
-  //         songId: item._id || "",
-  //       }));
-  //       setCurrentSong(updatedSongs);
-  //     } else {
-  //       console.error("Data not found in local storage.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error parsing data from local storage:", error);
-  //   }
-  // }
-
-
-
-  // useEffect(() => {
-  //   localStorageDataGetting();
-  // }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowContent(true);
-  //   }, 0);
-  // });

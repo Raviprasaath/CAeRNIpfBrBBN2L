@@ -47,56 +47,11 @@ function MusicControlComp(props) {
   const excitedSongList = useSelector((state) => state.usersData.excitedSong);
   const allSongsList = useSelector((state) => state.usersData.allSongs);
   const albumSongsList = useSelector((state) => state.usersData.albumSongs);
-  const resultSongsList = useSelector((state) => state.usersData.resultSongs);
   const resultSongsDataList = useSelector((state) => state.usersData.albumSongs);
   const favSongAllList = useSelector((state) => state.usersData.allfavSongData);
   const artistSong = useSelector((state) => state.usersData.artistPage2);
 
   let songAllDetails = [];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // console.log("currentTrack", currentTrack)
-  // console.log("activeSong", activeSong);
-  // console.log("artistSong", artistSong);
-
 
 
   let albumFlag = false;
@@ -161,7 +116,6 @@ function MusicControlComp(props) {
     }
   }
 
-  // console.log("songList", songList)
 
   const handleSongClicker = (data) => {
     if (audioRef.current) {
