@@ -6,8 +6,9 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsPlayCircle, BsFillPlayFill, BsThreeDotsVertical, } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import actions from "../../../action";
-import axios from 'axios';
 import Loader from "react-js-loader";
+import { fetchAllSongs } from '../../Fetching/fetching';
+import action from "../../../action";
 
 function AllSongs() {
   const [showContent, setShowContent] = useState(false);
@@ -62,19 +63,12 @@ function AllSongs() {
   }, [scrolling]);
 
   
-
-
   useEffect(() => {
-    async function dataGetting() {
-      try {
-        const headers = {
-          'Content-Type': 'application/json',
-          'projectId': '8jf3b15onzua'
-        };
-        const response = await axios.get("https://academics.newtonschool.co/api/v1/music/song?limit=100", { headers: headers });
-        const result = response.data;
-        const storedData = result.data;
-        const result2 = storedData.map((item) => ({
+    const fetching = async () => {
+    try {      
+        const fetchAllSongData = await fetchAllSongs();
+        
+        const result2 = fetchAllSongData.map((item) => ({
           key: item._id,
           url: item.thumbnail || "",
           name: item.title || "",
@@ -88,22 +82,20 @@ function AllSongs() {
         }));
         setCurrentSong(result2);
         setShowContent(true);
+        dispatch(action.setAllSongsData(fetchAllSongData));
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log(error);
       }
     }
 
-    dataGetting();
+    fetching();
+
   }, []);
 
   const handleSongClicker = (data) => {
     dispatch(actions.setActiveSong(data));
   };
 
-  
-  const currentSongArray = Object.keys(currentSong).map(
-    (key) => currentSong[key]
-  );
 
 
   const scrollToTop = () => {
@@ -123,9 +115,9 @@ function AllSongs() {
     <>
       {showContent ? (
         <div>
-          <audio
+          <audio          
             ref={audioRef}
-            src={currentSongArray.length > 0 ? currentSongArray[0].audio : ""}
+            src={currentSong.length > 0 ? currentSong[0].audio : ""}
             onTimeUpdate={handleTimeUpdate}
             controls
             autoPlay
@@ -210,7 +202,7 @@ function AllSongs() {
                       </tr>
                     </thead>
                     <tbody className="table-body-container">
-                      {currentSongArray.map((tracks, index) => (
+                      {currentSong.map((tracks, index) => (
                         <tr
                           key={tracks._id || index}
                           onClick={() => {handleSongClicker(currentSong[index]); setCurrentSongIndex(index) }}
@@ -304,8 +296,6 @@ function AllSongs() {
 }
 
 export default AllSongs;
-
-
 
 
 

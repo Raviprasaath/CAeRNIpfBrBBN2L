@@ -51,8 +51,10 @@ function MusicControlComp(props) {
   const favSongAllList = useSelector((state) => state.usersData.allfavSongData);
   const artistSong = useSelector((state) => state.usersData.artistPage2);
 
-  let songAllDetails = [];
+  // console.log("allSongsList", allSongsList);
 
+  let songAllDetails = [];
+  // console.log("activeSong", activeSong)
 
   let albumFlag = false;
   if (activeSong.album === "yes") {
@@ -115,6 +117,8 @@ function MusicControlComp(props) {
       songList = allSongsList;
     }
   }
+
+  // console.log("songList", songList)
 
 
   const handleSongClicker = (data) => {
@@ -498,10 +502,7 @@ function MusicControlComp(props) {
         };
       
         const response = await fetch("https://academics.newtonschool.co/api/v1/music/favorites/like", requestOptions)
-        if (!response.ok) {
-          const errorText = await response.text(); // Get the error response body if available
-          throw new Error(`Request failed with status: ${response.status}. Error message: ${errorText}`);
-        }
+        
         const result = await response.json();
         if (result.data) {
           setFetchingSongStoringArray(result.data.songs);

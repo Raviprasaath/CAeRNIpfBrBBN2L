@@ -19,7 +19,19 @@ export const fetchSongs = async (filter, limit) => {
   return response.data.data;
 };
 
-export const fetchArtists = async (limit) => {
+export const fetchAllSongs = async (limit = 100) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    projectId: PROJECT_ID,
+  };
+
+  const response = await axios.get(`${BASE_URL}/song?&limit=${limit}`, {
+    headers,
+  });
+  return response.data.data;
+};
+
+export const fetchArtists = async (limit = 200) => {
   const headers = {
     'Content-Type': 'application/json',
     projectId: PROJECT_ID,
@@ -31,6 +43,21 @@ export const fetchArtists = async (limit) => {
 
   return response.data.data;
 };
+
+
+export const fetchAlbum = async (limit) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    projectId: PROJECT_ID,
+  };
+  const response = await axios.get(`${BASE_URL}/album?limit=${limit}`, {
+    headers,
+  });
+
+  return response.data.data;
+}
+
+
 
 export const fetchDataByType = async (type) => {
   switch (type) {

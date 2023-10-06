@@ -10,7 +10,10 @@ import { useDispatch } from "react-redux";
 import action from "../../../action.js";
 import Loader from "react-js-loader";
 
-import { fetchDataByType } from "../../Fetching/fetching";
+import { fetchDataByType, fetchArtists } from "../../Fetching/fetching";
+import {getSongsByArtist} from '../../../Utility.jsx'
+
+
 
 function HomePage() {
   const [trendingSongs, setTrendingSongs] = useState();
@@ -21,6 +24,8 @@ function HomePage() {
   const [romanticSongsData, setRomanticSongsData] = useState();
   const [sadSongsData, setSadSongsData] = useState();
   const [excitedSongsData, setExcitedSongsData] = useState();
+  const [artistPage1, setArtistPage1] = useState();
+
 
   const [loader1, setLoader1] = useState(false);
   const [loader2, setLoader2] = useState(false);
@@ -113,6 +118,13 @@ function HomePage() {
         setExcitedSongsData(excitedMood);
         setInLocalStorage(excitedMood);
         setLoader8(false);
+
+        const artist = await fetchArtists();
+        const newSongData = getSongsByArtist(artist);
+        const newFilteredArray = [...new Set(newSongData.map((item)=>item))];
+        setArtistPage1(newFilteredArray);
+        dispatch(action.setArtistPage1(newFilteredArray));
+        dispatch(action.setArtistCardsRender(newFilteredArray));
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -156,116 +168,6 @@ function HomePage() {
     scrollToTop();
   }, []);
 
-  // return (
-  //   <>
-  //     <LargerCarousel />
-  //     <h2 className="homepage-heading">Top Trending</h2>
-  //     {!loader1 ? (
-  //       <>
-  //         {productTrending?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productTrending}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Peaceful Melodic</h2>
-  //     {!loader2 ? (
-  //       <>
-  //         {productSoul?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productSoul}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Evergreen Melodies</h2>
-  //     {!loader3 ? (
-  //       <>
-  //         {productEvergreen?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productEvergreen}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Top 20 Of this week</h2>
-
-  //     {!loader4 ? (
-  //       <>
-  //         {productTop20?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productTop20}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Happy Mood</h2>
-  //     {!loader5 ? (
-  //       <>
-  //         {productHappy?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productHappy}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Romantic Mood</h2>
-
-  //     {!loader6 ? (
-  //       <>
-  //         {productRomantic?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productRomantic}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Sad Songs</h2>
-  //     {!loader7 ? (
-  //       <>
-  //         {productSad?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productSad}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-
-  //     <h2 className="homepage-heading">Excited Mood</h2>
-  //     {!loader8 ? (
-  //       <>
-  //         {productExcited?.length > 0 && (
-  //           <Carousel showDots={false} responsive={responsive}>
-  //             {productExcited}
-  //           </Carousel>
-  //         )}
-  //       </>
-  //     ) : (
-  //       <Loader size="lg" />
-  //     )}
-  //   </>
-  // );
   return (
     <>
       <LargerCarousel />
